@@ -1,0 +1,46 @@
+import os
+
+txtList = []
+
+user_input = raw_input("Please enter the folder path.\n")
+assert os.path.exists(user_input), "Path is incorrect or file doesn't exist!!!"
+os.chdir(user_input)
+
+for file in os.listdir(user_input):
+    if file.endswith(".txt"):
+        txtList.append(file)
+
+
+def createFile(txtFile, fileName):
+    with open(fileName, 'wb') as ftext:
+        ftext.write(txtFile)
+
+
+def appendFile(txtFile, fileName):
+    with open(fileName, 'a') as ftext:
+        ftext.write(txtFile)
+
+
+def setFileName(tread, countItem):
+    fileName = tread[0:tread.index('.')] + '_Cleaned' + '_Part' + str(countItem) + '.csv'
+    return fileName
+
+for tread in txtList:
+    postitem = False
+    countItem = 0
+    with open(tread, "r+") as f:
+        searchlines = f.readlines()
+    for i, line in enumerate(searchlines):
+        if "Item" in line:
+            postitem = True
+            countItem += 1
+            print('Item' + '_' + str(countItem))
+            print i
+            fileName = setFileName(tread, countItem)
+            createFile(str(i)+',' + searchlines[i], fileName)
+        elif ("Item" not in line) and postitem:
+            print('Not Item' + '_' + str(countItem))
+            print i
+            fileName = setFileName(tread, countItem)
+            if ',3' in searchlines[i]:
+                appendFile(str(i)+',' + searchlines[i], fileName)

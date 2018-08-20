@@ -22,7 +22,7 @@ def appendFile(txtFile, fileName):
 
 
 def setFileName(tread, countItem):
-    fileName = tread[0:tread.index('.')] + '_Cleaned' + '_Part' + str(countItem) + '.csv'
+    fileName = tread[0:tread.index('.')] + '_Cleaned' + str(countItem) + '.csv'
     return fileName
 
 for tread in txtList:
